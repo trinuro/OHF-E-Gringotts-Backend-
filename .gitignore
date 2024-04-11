@@ -33,4 +33,3 @@ build/
 .vscode/
 
 ### Privacy ###
-src/main/resources/Secrets/
