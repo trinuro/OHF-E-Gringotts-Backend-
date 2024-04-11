@@ -33,5 +33,5 @@ build/
 .vscode/
 
 ### Privacy ###
-.Secrets/
-!.Secrets/.gitkeep
+.src/main/resources/Secrets/
+!.src/main/resources/Secrets/.gitkeep
