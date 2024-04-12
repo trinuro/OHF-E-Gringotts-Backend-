@@ -1,10 +1,10 @@
 package com.example.egringotts.user;
 
-public class PlatinumPatronus {
+public class PlatinumPatronus extends AbstractUser{
     @Override
     public String toString() {
         return """
-                PlatinumPatronus (I am the top dog!)
+                Platinum Patronus (I am the top dog!)
                                       ____
                                      / ___`\\
                          /|         ( (   \\ \\
@@ -24,5 +24,10 @@ public class PlatinumPatronus {
                  |    |   |/   |        / /
                  |    |        |        | |
                 """;
+    }
+
+    @Override
+    public String getType() {
+        return "platinumPatronus";
     }
 }

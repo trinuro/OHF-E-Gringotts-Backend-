@@ -1,7 +1,12 @@
 package com.example.egringotts.user;
 
-public class Goblin {
-    private final static String type = "goblin";
+public class Goblin extends AbstractUser{
+    public final static String type = "goblin";
+
+    @Override
+    public String getType() {
+        return type;
+    }
     @Override
     public String toString() {
         return """

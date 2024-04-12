@@ -1,6 +1,13 @@
 package com.example.egringotts.user;
 
-public class SilverSnitch {
+public class SilverSnitch extends AbstractUser{
+    private final static String type = "silverSnitch";
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
     @Override
     public String toString(){
         return """

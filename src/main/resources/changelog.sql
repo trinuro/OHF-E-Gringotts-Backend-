@@ -6,8 +6,7 @@ CREATE TABLE user (
     email VARCHAR(255),
     name VARCHAR(255),
     password VARCHAR(255),
-    status boolean, -- Whether the user is banned or not
-    type VARCHAR(255) -- Type of user
+    status VARCHAR(255) -- Type of user
 );
 
 CREATE TABLE account (
@@ -32,4 +31,4 @@ CREATE TABLE transaction(
     description VARCHAR(5000)
 );
 
-INSERT INTO user(email, name, password, status, type) VALUES('email@gmail.com', 'Goblin', 'enable', true, 'admin');
+INSERT INTO user(email, name, password, status) VALUES('love@gmail.com', 'GoblinSecretary', 'enable', 'goblin');

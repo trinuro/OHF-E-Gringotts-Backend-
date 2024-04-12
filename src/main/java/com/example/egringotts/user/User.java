@@ -10,25 +10,23 @@ import org.hibernate.annotations.Parameter;
  */
 @Entity
 @Table(name = "user")
-public class User<T> {
+public class User<T extends AbstractUser> {
     @Id
-    @GeneratedValue(generator = "sequence-generator-user")
-    @GenericGenerator(
-            name = "sequence-generator-user",
-            strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-            parameters = {
-                    @Parameter(name = "sequence_name", value = "user_sequence"),
-                    @Parameter(name = "initial_value", value = "2"),
-                    @Parameter(name = "increment_size", value = "1")
-            }
+//    @SequenceGenerator(
+//            name = "user_sequence",
+//            sequenceName = "user_sequence",
+//            allocationSize = 1,
+//            initialValue = 2
+//    )
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
     )
     private long id;
     private String name;
     private String email;
-    private String passwordHash;
+    private String password;
     private String status;
-    @Transient
-    private T currentUser;
+
 
     // Default constructor
     public User(){
@@ -37,12 +35,19 @@ public class User<T> {
     }
 
     // Constructor
-    public User(long id, String name, String email, String passwordHash, String status) {
+    public User(long id, String name, String email, String password) {
         this.id = id;
         this.name = name;
         this.email = email;
-        this.passwordHash = passwordHash;
-        this.status = status;
+        this.status = "";
+    }
+
+    public User(User other, T userType) {
+        this.id = other.getId();
+        this.name = other.getName();
+        this.email = other.getEmail();
+        this.password = other.getPassword();
+        this.status = userType.getType();
     }
 
     // Getter and setter methods
@@ -70,12 +75,12 @@ public class User<T> {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getStatus() {
@@ -84,18 +89,6 @@ public class User<T> {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public T getCurrentUser() {
-        return currentUser;
-    }
-
-    /**
-     * Changes type of current user
-     * @param currentUser User's new type
-     */
-    public void setCurrentUser(T currentUser) {
-        this.currentUser = currentUser;
     }
 
     /**
@@ -108,8 +101,8 @@ public class User<T> {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
-                ", passwordHash='" + passwordHash + '\'' +
-                ", status=\n" + currentUser +
+                ", password='" + password + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }
