@@ -1,7 +1,7 @@
 1. Install MySQL if you haven't
 2. Navigate to `MySQL 8.0 Command Line Client` (You can use the search button for this)
 3. Log in using your password.
-4. Create a new database called `EGringottsDB`
+4. Create a new database called `egringotts`
 ```MYSQL
 CREATE DATABASE egringotts
 ```
