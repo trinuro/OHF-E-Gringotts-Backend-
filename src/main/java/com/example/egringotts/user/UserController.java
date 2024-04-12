@@ -28,7 +28,7 @@ public class UserController {
 
     /**
      * API Endpoint to get all users
-     * @return
+     * @return A list of JSON of users
      */
     @GetMapping(path="/all")
     public @ResponseBody List<User> getAllUsers() {
@@ -36,6 +36,12 @@ public class UserController {
         return (List<User>) userService.getAllUsers();
     }
 
+    /**
+     * API Endpoint to get one user based on name or email
+     * @param property Either "email" or "name"
+     * @param value Either email address if property is email or username if property is name
+     * @return JSON of user information
+     */
     @GetMapping(path="/getUser")
     public @ResponseBody User getUserByProperty(@RequestParam(name="property") String property, @RequestParam(name="value") String value){
         return userService.getUserInfo(property, value);

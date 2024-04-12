@@ -24,6 +24,8 @@ public class UserService {
 
     public User getUserInfo(String method, String matchString){
         Optional<User> result = null;
+        method = method.toLowerCase();
+
         switch(method){
             case "email":
                 result = userRepository.findUserByEmail(matchString);
@@ -41,6 +43,8 @@ public class UserService {
         User user = result.orElseThrow(
                 ()->{throw new IllegalStateException();}
         );
+
+        user.setPassword(""); // hide password
 
         return user;
     }

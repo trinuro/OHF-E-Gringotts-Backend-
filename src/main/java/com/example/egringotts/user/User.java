@@ -48,6 +48,7 @@ public class User<T extends AbstractUser> {
         this.email = other.getEmail();
         this.password = other.getPassword();
         this.status = userType.getType();
+        System.out.println(userType);
     }
 
     // Getter and setter methods
