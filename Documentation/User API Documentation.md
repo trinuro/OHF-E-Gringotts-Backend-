@@ -1,5 +1,5 @@
 # User endpoint
-1. All user API endpoints begins `http://localhost:8080/api/vl/user`
+1. All user API endpoints begins `http://localhost:8080/api/v1/user`
 ## Get all users
 1. Make a GET request to `../all`
 Example output:
