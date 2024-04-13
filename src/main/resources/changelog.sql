@@ -32,3 +32,22 @@ CREATE TABLE transaction(
 );
 
 INSERT INTO user(email, name, password, status) VALUES('love@gmail.com', 'GoblinSecretary', 'enable', 'goblin');
+
+-- changeset liquibase:2
+ALTER TABLE account
+    DROP total_balance,
+    DROP knut_balance,
+    DROP sickle_balance,
+    DROP galleon_balance;
+
+ALTER TABLE transaction
+    DROP amount;
+
+ALTER TABLE account
+    ADD total_balance DECIMAL(10,2),
+    ADD knut_balance DECIMAL(10,2),
+    ADD sickle_balance DECIMAL(10,2),
+    ADD galleon_balance DECIMAL(10,2);
+
+ALTER TABLE account
+    ADD amount DECIMAL(10,2);

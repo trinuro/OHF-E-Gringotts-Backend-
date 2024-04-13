@@ -1,8 +1,8 @@
 package com.example.egringotts.user;
 
+import com.example.egringotts.account.Account;
 import jakarta.persistence.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Parameter;
+import java.util.List;
 
 /**
  * Class that describes users of our system
@@ -26,6 +26,9 @@ public class User<T extends AbstractUser> {
     private String email;
     private String password;
     private String status;
+    // A user can have many accounts
+    @OneToMany(mappedBy = "myUser")
+    private List<Account> accounts;
 
 
     // Default constructor
