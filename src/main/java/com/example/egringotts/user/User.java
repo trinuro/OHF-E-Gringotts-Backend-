@@ -1,6 +1,7 @@
 package com.example.egringotts.user;
 
 import com.example.egringotts.account.Account;
+import com.example.egringotts.transaction.Transaction;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class User<T extends AbstractUser> {
     // A user can have many accounts
     @OneToMany(mappedBy = "myUser")
     private List<Account> accounts;
+
 
 
     // Default constructor
