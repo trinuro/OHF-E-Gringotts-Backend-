@@ -1,9 +1,12 @@
 package com.example.egringotts.account;
 
+import com.example.egringotts.transaction.Transaction;
 import jakarta.persistence.*;
 import com.example.egringotts.user.User;
 
 import java.time.LocalDate;
+import java.util.List;
+
 @Entity
 @Table(name="account")
 public class Account {
@@ -23,6 +26,10 @@ public class Account {
     private double galleon_balance;
     @Column(name="user_id")
     private Long user_id_long;
+    @OneToMany(mappedBy="sourceAccount")
+    private List<Transaction> transactionsSent;
+    @OneToMany(mappedBy = "destinationAccount")
+    private List<Transaction> transactionsReceived;
 
 
     //Constructors

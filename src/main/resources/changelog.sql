@@ -51,3 +51,11 @@ ALTER TABLE account
 
 ALTER TABLE account
     ADD amount DECIMAL(10,2);
+
+-- changeset liquibase:3
+ALTER TABLE account DROP amount;
+ALTER TABLE transaction ADD amount DECIMAL(10,2);
+
+-- changeset liquibase:4
+ALTER TABLE transaction DROP dateTime;
+ALTER TABLE transaction ADD date_time DATETIME;
