@@ -13,3 +13,4 @@ DB_USER=XXX
 DB_DATABASE_URL=jdbc:mysql://localhost:3306/egringotts
 DB_PASSWORD=XXX
 ```
+7. Navigate to [main class](src/main/java/com/example/egringotts/EGringottsBackendApplication.java) and run it
