@@ -64,4 +64,9 @@ public class TransactionService {
         return output;
     }
 
+    public List<Transaction> getTransactionsByDateTime(String startTime, String endTime){
+        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startTime, endTime);
+        return transactionList;
+    }
+
 }

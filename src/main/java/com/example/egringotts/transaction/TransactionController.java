@@ -31,4 +31,10 @@ public class TransactionController {
     public @ResponseBody Transaction getTransaction(@RequestParam(name="property") String property, @RequestParam(name="value") String value){
         return transactionService.getTransactionBy(property, value);
     }
+
+    //document
+    @GetMapping(path="/getTransactionByDateTime")
+    public @ResponseBody List<Transaction> getTransactionByDateTime(@RequestParam(name="start") String startTime, @RequestParam(name="end") String endTime){
+        return transactionService.getTransactionsByDateTime(startTime, endTime);
+    }
 }
