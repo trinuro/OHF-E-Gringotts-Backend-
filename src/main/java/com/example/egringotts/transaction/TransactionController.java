@@ -25,4 +25,10 @@ public class TransactionController {
     public void createNewTransactions(@RequestBody Transaction transaction){
         transactionService.addNewTransaction(transaction);
     }
+
+    // document
+    @GetMapping(path="/getTransaction")
+    public @ResponseBody Transaction getTransaction(@RequestParam(name="property") String property, @RequestParam(name="value") String value){
+        return transactionService.getTransactionBy(property, value);
+    }
 }
