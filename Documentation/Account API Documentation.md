@@ -1,5 +1,6 @@
+# Account API Documentation
 1. All Account endpoints starts with `http://localhost:8080/api/v1/account`
-# Get all accounts in the database
+## Get all accounts in the database
 1. Make a GET request to `../all`
 Output:
 ```http
@@ -54,7 +55,7 @@ Connection: keep-alive
 ]
 ```
 
-# Create new account
+## Create new account
 1. Create a POST request to this endpoint
 ```http
 POST http://localhost:8080/api/v1/account/create  

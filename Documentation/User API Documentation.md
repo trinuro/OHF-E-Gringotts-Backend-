@@ -60,3 +60,25 @@ Content-Type: application/json
 }
 ```
 - Note that email address must be unique
+
+## Log a user in
+1. Make a POST request to `../login`
+```http
+POST http://localhost:8080/api/v1/user/login  
+Content-Type: application/json  
+  
+{  
+  "email": "",  
+  "password": ""
+}
+```
+Output (if successful):
+```json
+{
+  "id": 1,
+  "name": "GoblinSecretary",
+  "email": "love@gmail.com",
+  "password": "",
+  "status": "goblin"
+}
+```
