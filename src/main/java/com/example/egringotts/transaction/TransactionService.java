@@ -3,8 +3,12 @@ package com.example.egringotts.transaction;
 import com.example.egringotts.account.Account;
 import com.example.egringotts.account.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
@@ -26,12 +30,7 @@ public class TransactionService {
      */
     public List<Transaction> getAllTransactions(){
         List<Transaction> transactions =  transactionRepository.findAll();
-        ListIterator<Transaction> li = transactions.listIterator();
-        while(li.hasNext()){
-            Transaction tmp = li.next();
-            tmp.setDestinationAccount(null);
-            tmp.setSourceAccount(null); // Hide destination and source account info
-        }
+        removeAccountInfo(transactions);
         return transactions;
     }
 
@@ -43,30 +42,80 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
-    public Transaction getTransactionBy(String method, String matchString){
-        Optional<Transaction> transactionOptional;
+    /**
+     * Get a list of transactions where method = matchstring
+     * @param method Either "category", "source_account" or "destination_account"
+     * @param matchString String to match
+     * @return A list of transaction that fits criteria
+     */
+    public List<Transaction> getTransactionBy(String method, String matchString){
+        List<Transaction> transactions;
         switch(method){
             case "category":
-                transactionOptional= transactionRepository.findTransactionByCategory(matchString);
+                transactions= transactionRepository.findTransactionByCategory(matchString);
                 break;
             case "source_account":
                 Account src = accountRepository.findAccountById(Long.valueOf(matchString)).orElseThrow(
                         ()->{throw new IllegalStateException("No such source account");}
                 );
-                transactionOptional= transactionRepository.findTransactionBySourceAccount(src);
+                transactions= transactionRepository.findTransactionBySourceAccount(src);
+                break;
+            case "destination_account":
+                // find account
+                Account destination = accountRepository.findAccountById(Long.valueOf(matchString)).orElseThrow(
+                        ()->{throw new IllegalStateException("No such source account");}
+                );
+                // find transactions related to that account
+                transactions = transactionRepository.findTransactionByDestinationAccount(destination);
                 break;
             default:
                 throw new IllegalStateException("Illegal method name");
         }
-        Transaction output = transactionOptional.orElseThrow(
-                ()->{throw new IllegalStateException("No such transaction");}
-        );
-        return output;
+        removeAccountInfo(transactions);
+        return transactions;
     }
 
+    /**
+     * Remove all account information from a list of transactions
+     * @param transactions List of transactions to remove account info
+     */
+    public void removeAccountInfo(List<Transaction> transactions){
+        Iterator<Transaction> li = transactions.iterator();
+        Transaction current;
+        while(li.hasNext()){
+            current = li.next();
+            current.setDestinationAccount(null);
+            current.setSourceAccount(null);
+        }
+    }
+
+    /**
+     * Get a list of transactions by date time
+     * @param startTime Date and time to start (yyyy-MM-dd HH:mm:ss)
+     * @param endTime Date and time to end (yyyy-MM-dd HH:mm:ss)
+     * @return List of transactions that fit criteria
+     */
     public List<Transaction> getTransactionsByDateTime(String startTime, String endTime){
         List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startTime, endTime);
+        removeAccountInfo(transactionList);
         return transactionList;
+    }
+
+    /**
+     * Get a list of transaction in the days before a certain date
+     * @param dateTime Date and time to end ("yyyy-MM-dd HH:mm:ss")
+     * @param numberOfDays Number of days before specified date and time
+     * @return List of transaction
+     */
+    public List<Transaction> getTransactionByDaysBefore(String dateTime, int numberOfDays){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dto = LocalDateTime.parse(dateTime, formatter);
+
+        String endTime = dto.format(formatter);
+        String startTime = dto.minusDays(numberOfDays).format(formatter);
+        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startTime, endTime);
+        removeAccountInfo(transactions);
+        return transactions;
     }
 
 }
