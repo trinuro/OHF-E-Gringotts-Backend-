@@ -52,7 +52,6 @@ public class UserController {
      * @param temporaryUser A user object that contains email address and password entered
      * @return User JSON if successful
      */
-    // document
     @PostMapping(path="/login")
     public @ResponseBody User logInAUser(@RequestBody User temporaryUser){
         return userService.logInUser(temporaryUser);
