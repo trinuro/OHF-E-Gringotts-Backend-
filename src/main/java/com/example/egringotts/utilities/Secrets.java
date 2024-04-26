@@ -6,7 +6,7 @@ public class Secrets {
      * @return email address of self
      */
     public static String getSenderEmail(){
-        return "";
+        return "harimaudmn@gmail.com";
     }
 
     /**
@@ -14,7 +14,7 @@ public class Secrets {
      * @return path to json containing API keys
      */
     public static String getJSON(){
-        return "";
+        return "nothing-to-see.json";
     }
 
     /**
@@ -22,7 +22,7 @@ public class Secrets {
      * @return client id string
      */
     public static String getClientID(){
-        return "";
+        return "270478638209-neebvqddq3bdbfsp3pcbshrut5hrpnt7.apps.googleusercontent.com";
     }
 
     /**
@@ -30,6 +30,6 @@ public class Secrets {
      * @return client secret string
      */
     public static String getClientSecret(){
-        return "";
+        return "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";
     }
 }
