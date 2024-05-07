@@ -1,6 +1,7 @@
 package com.example.egringotts.account;
 
 import com.example.egringotts.user.User;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,4 +28,17 @@ public class AccountController {
     public void createNewUsers(@RequestBody Account account){
         accountService.addNewAccount(account);
     }
+
+
+    @PutMapping(path="{accountId}")
+    public void updateAccount(@PathVariable("accountId") long id,
+                              @RequestParam(required = true) long new_accountId){
+        accountService.updateAccount(id, new_accountId);
+    }
+
+    @PostMapping(path="/get")
+    public Account getAccountById(@RequestParam(required = true) int id){
+        return accountService.getAccountById(id);
+    }
+
 }
