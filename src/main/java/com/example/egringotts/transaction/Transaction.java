@@ -2,6 +2,7 @@ package com.example.egringotts.transaction;
 
 import com.example.egringotts.account.Account;
 import jakarta.persistence.*;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,9 +16,7 @@ public class Transaction {
     private long id;
     private double amount;
     @Column(name="date_time")
-    private LocalDateTime dateTime;
-    @Transient
-    private String date_time_string;
+    private String dateTime;
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="source_account_id", insertable = false, updatable = false)
     private Account sourceAccount;
@@ -32,14 +31,14 @@ public class Transaction {
     private String description;
 
     // constructors
-    public Transaction(long id, double amount, LocalDateTime dateTime, String date_time_string, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
+    public Transaction(long id, double amount, String dateTime, String date_time_string, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
         this.id = id;
         this.amount = amount;
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        this.dateTime = LocalDateTime.parse(date_time_string, formatter);
-        this.date_time_string = date_time_string;
-
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+//        this.dateTime = LocalDateTime.parse(date_time_string, formatter);
+//        System.out.println(dateTime);
+        this.dateTime = dateTime;
         this.sourceAccount = sourceAccount;
         this.source_account_id_long = source_account_id_long;
         this.destinationAccount = destinationAccount;
@@ -69,11 +68,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public LocalDateTime getDateTime() {
+    public String getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
+    public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
 

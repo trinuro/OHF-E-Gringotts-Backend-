@@ -16,4 +16,7 @@ public interface AccountRepository extends CrudRepository<Account, Long> {
     Optional<Account> findAccountByMyUser_Id(long id);
 
 
+    @Query("SELECT s FROM Account s WHERE s.id=?1")
+    Optional<Account> findAccountById(long id);
+
 }

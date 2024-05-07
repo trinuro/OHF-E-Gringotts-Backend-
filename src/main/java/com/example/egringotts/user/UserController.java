@@ -48,6 +48,16 @@ public class UserController {
     }
 
     /**
+     * Login a user
+     * @param temporaryUser A user object that contains email address and password entered
+     * @return User JSON if successful
+     */
+    @PostMapping(path="/login")
+    public @ResponseBody User logInAUser(@RequestBody User temporaryUser){
+        return userService.logInUser(temporaryUser);
+    }
+
+    /**
      * Adds a new user in "user" table
      * 0 for Goblin, 1 for Platinum Patronus, 2 for Golden Galleon, 3 for Silver Snitch
      */

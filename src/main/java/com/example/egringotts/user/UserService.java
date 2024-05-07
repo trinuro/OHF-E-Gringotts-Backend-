@@ -22,6 +22,13 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    /**
+     * Get information about a particular user
+     * Recommended to use this method as the password hash is censored in its output
+     * @param method Either email or name
+     * @param matchString The email of the user or the name of user (depends on method chosen)
+     * @return User JSON
+     */
     public User getUserInfo(String method, String matchString){
         Optional<User> result = null;
         method = method.toLowerCase();
@@ -60,5 +67,16 @@ public class UserService {
         }
         userRepository.save(user);
 
+    }
+
+    public User logInUser(User input){
+        User user = userRepository.findUserByEmail(input.getEmail()).orElseThrow(
+                ()->{throw new IllegalStateException(); }
+        );
+        if(user.getPassword().equals(input.getPassword())){
+            return getUserInfo("email",input.getEmail());
+        }else{
+            throw new IllegalStateException(); // don't tell why log in failed
+        }
     }
 }
