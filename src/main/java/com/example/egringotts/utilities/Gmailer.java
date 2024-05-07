@@ -55,9 +55,6 @@ public class Gmailer {
     private static final String APPLICATION_NAME = "test-project";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
-    public Gmailer(){}
-
-
     /**
      * Method to send gmail
      * @param destinationEmail  The email address that receives this email
@@ -73,7 +70,7 @@ public class Gmailer {
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         System.out.println("1");
         InputStream inputStream = Gmailer.class.getClassLoader()
-                .getResourceAsStream("\\Secrets\\credentials.json");
+                .getResourceAsStream(Secrets.getJSON());
         // use \\ instead because windows
         System.out.println(inputStream);
         System.out.println("2");
