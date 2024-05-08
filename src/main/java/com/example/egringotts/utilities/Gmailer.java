@@ -67,6 +67,7 @@ public class Gmailer {
     public static void sendEmail(String destinationEmail, String subject, String bodyText) throws IOException, GeneralSecurityException, MessagingException {
         // Function to send email
 
+
         final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         System.out.println("1");
         InputStream inputStream = Gmailer.class.getClassLoader()
