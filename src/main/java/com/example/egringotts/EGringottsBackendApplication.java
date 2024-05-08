@@ -9,7 +9,17 @@ public class EGringottsBackendApplication {
 
 	public static void main(String[] args) {
 		// Send recovery email to user
-		SpringApplication.run(EGringottsBackendApplication.class, args);
+//		SpringApplication.run(EGringottsBackendApplication.class, args);
+		try{
+			String receiver = "<your-email-address>";
+			String subject = "Gringgots love you";
+			String message = "Hi, test test";
+			Gmailer.sendEmail( receiver, subject, message);
+
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+//		Gmailer.getRefreshToken();
 	}
 
 }
