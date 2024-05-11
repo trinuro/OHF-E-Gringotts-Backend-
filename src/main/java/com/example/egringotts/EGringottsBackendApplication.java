@@ -1,6 +1,5 @@
 package com.example.egringotts;
 
-import com.example.egringotts.user.Goblin;
 import com.example.egringotts.user.SilverSnitch;
 import com.example.egringotts.utilities.Gmailer;
 import org.springframework.boot.SpringApplication;
@@ -13,7 +12,7 @@ public class EGringottsBackendApplication {
 		// Send recovery email to user
 		SpringApplication.run(EGringottsBackendApplication.class, args);
 //		try{
-//			String receiver = "22115428@siswa.um.edu.my";
+//			String receiver = "<email>";
 //			String subject = "Gringgots love you";
 //			String message = new SilverSnitch().toString();
 //			Gmailer.sendEmail( receiver, subject, message);
