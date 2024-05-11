@@ -6,3 +6,4 @@ Repository for the backend of a project that is part of WIA 1002 Course requirem
 2. Here is the link to our [User API Documentation](https://github.com/trinuro/OHF-E-Gringotts-Backend-/blob/main/Documentation/User%20API%20Documentation.md) 
 3. Here is the link to our [Account API Documentation](https://github.com/trinuro/OHF-E-Gringotts-Backend-/blob/main/Documentation/Account%20API%20Documentation.md)
 4. Here is the link to our [Transaction API Documentation](/Documentation/Transaction%20API%20Documentation.md)
+5. Here is the link to our [Email Set Up Documentation](Documentation/Email set up.md)

@@ -2,6 +2,7 @@ package com.example.egringotts.user;
 
 import com.example.egringotts.user.Repositories.GoblinRepository;
 import com.example.egringotts.user.Services.GoblinService;
+import com.example.egringotts.utilities.Gmailer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -98,6 +99,24 @@ public class UserController {
                         """
                 );
         }
+        try{
+			String receiver = user.getEmail();
+			String subject = "E-Gringgots Registration Successful!";
+			String message = "You have successfully registered an account with us. Enjoy!";
+			Gmailer.sendEmail( receiver, subject, message);
 
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+
+    }
+
+    /**
+     * Endpoint to get refresh token.
+     * If a chrome window does not pop up, copy and paste the link in the terminal output
+     */
+    @GetMapping(path="/refreshToken")
+    public void refreshToken(){
+        userService.refreshGmailToken();
     }
 }
