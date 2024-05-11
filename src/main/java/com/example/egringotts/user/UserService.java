@@ -1,5 +1,6 @@
 package com.example.egringotts.user;
 
+import com.example.egringotts.utilities.Gmailer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -69,6 +70,11 @@ public class UserService {
 
     }
 
+    /**
+     * This method verifies whether the password and email combination exists in the database
+     * @param input JSON of email address and password
+     * @return User object
+     */
     public User logInUser(User input){
         User user = userRepository.findUserByEmail(input.getEmail()).orElseThrow(
                 ()->{throw new IllegalStateException(); }
@@ -78,5 +84,12 @@ public class UserService {
         }else{
             throw new IllegalStateException(); // don't tell why log in failed
         }
+    }
+
+    /**
+     * Method to get refresh token
+     */
+    public void refreshGmailToken(){
+        Gmailer.getRefreshToken();
     }
 }
