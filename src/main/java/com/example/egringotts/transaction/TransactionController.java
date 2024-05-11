@@ -21,8 +21,8 @@ public class TransactionController {
      * @return A list of transactions
      */
     @GetMapping(path="/all")
-    public @ResponseBody List<Transaction> getAllTransactions(){
-        return transactionService.getAllTransactions();
+    public @ResponseBody List<Transaction> getAllTransactions(@RequestParam(name = "id") long accountId){
+        return transactionService.getAllTransactions(accountId);
     }
 
     /**
