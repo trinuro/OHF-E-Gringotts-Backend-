@@ -6,7 +6,7 @@ public class Secrets {
     }
 
     public static String getJSON(){
-        return "Secrets\\nothing_to_see.json";
+        return "Secrets\\nothing-to-see.json";
     }
 
     public static String getClientID(){
