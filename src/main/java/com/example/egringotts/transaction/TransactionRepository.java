@@ -5,11 +5,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface TransactionRepository extends CrudRepository<Transaction, Long> {
-    @Override
-    List<Transaction> findAll();
+    @Query("SELECT s FROM Transaction s WHERE s.sourceAccount.id = ?1 OR s.destinationAccount.id = ?1")
+    List<Transaction> findAllByAccount_Id(long id);
 
     List<Transaction> findTransactionBySourceAccount_Id(long id);
 

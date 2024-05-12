@@ -1,7 +1,7 @@
 # Transactions API documentation
 1. All Transaction API endpoints starts with `http://localhost:8080/api/v1/transaction`
 ## To get all transactions that were recorded
-1. Make a GET request to `../all`
+1. Make a GET request to `../all?id=your_id`
 Output:
 ```http
 HTTP/1.1 200 

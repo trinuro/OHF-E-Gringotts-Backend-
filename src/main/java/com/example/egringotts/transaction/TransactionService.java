@@ -28,9 +28,9 @@ public class TransactionService {
      * Get all transactions done by bank
      * @return List of transactions
      */
-    public List<Transaction> getAllTransactions(){
-        List<Transaction> transactions =  transactionRepository.findAll();
-        removeAccountInfo(transactions);
+    public List<Transaction> getAllTransactions(long id){
+        List<Transaction> transactions =  transactionRepository.findAllByAccount_Id(id);
+//        removeAccountInfo(transactions);
         return transactions;
     }
 
