@@ -49,13 +49,10 @@ public class TransactionController {
      * @param value Value to query database
      * @return A list of JSON
      */
-    // DOCUMENT
     @GetMapping(path="/getTransaction")
     public @ResponseBody List<Transaction> getTransaction(@RequestParam(name="property") String property, @RequestParam(name="value") String value){
         return transactionService.getTransactionBy(property, value);
     }
-
-    //document
 
     /**
      * Get transaction in a certain period of time
@@ -68,8 +65,6 @@ public class TransactionController {
     public @ResponseBody List<Transaction> getTransactionByDateTime(@RequestParam(name="start") String startTime, @RequestParam(name="end") String endTime){
         return transactionService.getTransactionsByDateTime(startTime, endTime);
     }
-
-    //document
 
     /**
      * Get all transactions in the days before a certain date
