@@ -59,3 +59,6 @@ ALTER TABLE transaction ADD amount DECIMAL(10,2);
 -- changeset liquibase:4
 ALTER TABLE transaction DROP dateTime;
 ALTER TABLE transaction ADD date_time DATETIME;
+
+-- changeset liquibase:5
+ALTER TABLE user ADD phone_number VARCHAR(20);

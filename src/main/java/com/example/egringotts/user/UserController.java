@@ -99,15 +99,6 @@ public class UserController {
                         """
                 );
         }
-        try{
-			String receiver = user.getEmail();
-			String subject = "E-Gringgots Registration Successful!";
-			String message = "You have successfully registered an account with us. Enjoy!";
-			Gmailer.sendEmail( receiver, subject, message);
-
-		}catch(Exception e) {
-			System.out.println(e);
-		}
 
     }
 
