@@ -36,7 +36,7 @@ public class Transaction {
     private String description;
 
     // constructors
-    public Transaction(long id, double amount, Date dateTime, String date_time_string, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
+    public Transaction(long id, double amount, Date dateTime, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
         this.id = id;
         this.amount = amount;
         this.dateTime = dateTime;
@@ -68,10 +68,12 @@ public class Transaction {
         this.amount = amount;
     }
 
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getDateTime() {
         return dateTime;
     }
 
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }

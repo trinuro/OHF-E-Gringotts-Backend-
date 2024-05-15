@@ -6,12 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TransactionService {
@@ -96,7 +94,18 @@ public class TransactionService {
      * @return List of transactions that fit criteria
      */
     public List<Transaction> getTransactionsByDateTime(String startTime, String endTime){
-        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startTime, endTime);
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startDateTime = null;
+        Date endDateTime = null;
+        try{
+            // convert string to datetime format
+            startDateTime = fmt.parse(startTime);
+            endDateTime = fmt.parse(endTime);
+        }catch (java.text.ParseException e){
+            throw new RuntimeException(e);
+        }
+
+        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
         removeAccountInfo(transactionList);
         return transactionList;
     }
@@ -107,13 +116,26 @@ public class TransactionService {
      * @param numberOfDays Number of days before specified date and time
      * @return List of transaction
      */
-    public List<Transaction> getTransactionByDaysBefore(String dateTime, int numberOfDays){
+    public List<Transaction> getTransactionByDaysBefore(String dateTime, long numberOfDays){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dto = LocalDateTime.parse(dateTime, formatter);
 
         String endTime = dto.format(formatter);
-        String startTime = dto.minusDays(numberOfDays).format(formatter);
-        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startTime, endTime);
+        String startTime = dto.minusDays(numberOfDays).format(formatter); // minus number of days to get starting day
+//        System.out.println(endTime+" "+startTime);
+
+        Date startDateTime = null;
+        Date endDateTime = null;
+        try{
+            // convert string to datetime format
+            startDateTime = fmt.parse(startTime);
+            endDateTime = fmt.parse(endTime);
+        }catch (java.text.ParseException e){
+            throw new RuntimeException(e);
+        }
+//        System.out.println(startDateTime+" "+endDateTime);
+        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
         removeAccountInfo(transactions);
         return transactions;
     }
