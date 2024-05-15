@@ -41,10 +41,4 @@ public class AccountService {
     public Account getAccountById(long id) {
         return accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found"));
     }
-
-    // document
-    public void updateKnutBalance(long id, double newValue){
-        accountRepository.updateKnutBalanceByMyUser_Id(newValue, id);
-    }
-
 }

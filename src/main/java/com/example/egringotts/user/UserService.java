@@ -67,15 +67,15 @@ public class UserService {
             throw new IllegalStateException("Email is taken"); // if email is already registered, throw exception
         }
         userRepository.save(user);
-        try{
-            String receiver = user.getEmail();
-            String subject = "E-Gringgots Registration Successful!";
-            String message = "You have successfully registered an account with us. Enjoy!";
-            Gmailer.sendEmail( receiver, subject, message);
-
-        }catch(Exception e) {
-            System.out.println(e);
-        }
+//        try{
+//            String receiver = user.getEmail();
+//            String subject = "E-Gringgots Registration Successful!";
+//            String message = "You have successfully registered an account with us. Enjoy!";
+//            Gmailer.sendEmail( receiver, subject, message);
+//
+//        }catch(Exception e) {
+//            System.out.println(e);
+//        }
 
     }
 
