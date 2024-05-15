@@ -1,12 +1,16 @@
 package com.example.egringotts.transaction;
 
 import com.example.egringotts.account.Account;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToFile;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Entity
 @Table(name="transaction")
@@ -16,7 +20,8 @@ public class Transaction {
     private long id;
     private double amount;
     @Column(name="date_time")
-    private String dateTime;
+    @JsonFormat(shape =  JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date dateTime;
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name="source_account_id", insertable = false, updatable = false)
     private Account sourceAccount;
@@ -31,13 +36,9 @@ public class Transaction {
     private String description;
 
     // constructors
-    public Transaction(long id, double amount, String dateTime, String date_time_string, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
+    public Transaction(long id, double amount, Date dateTime, String date_time_string, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
         this.id = id;
         this.amount = amount;
-
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//        this.dateTime = LocalDateTime.parse(date_time_string, formatter);
-//        System.out.println(dateTime);
         this.dateTime = dateTime;
         this.sourceAccount = sourceAccount;
         this.source_account_id_long = source_account_id_long;
@@ -50,7 +51,6 @@ public class Transaction {
     public Transaction(){}
 
     // Getters and Setters
-
 
     public long getId() {
         return id;
@@ -68,11 +68,11 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getDateTime() {
+    public Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(String dateTime) {
+    public void setDateTime(Date dateTime) {
         this.dateTime = dateTime;
     }
 
