@@ -31,7 +31,8 @@ public class User<T extends AbstractUser> {
     @OneToMany(mappedBy = "myUser")
     private List<Account> accounts;
 
-
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
     // Default constructor
     public User(){
@@ -40,11 +41,12 @@ public class User<T extends AbstractUser> {
     }
 
     // Constructor
-    public User(long id, String name, String email, String password) {
+    public User(long id, String name, String email, String password, String phoneNumber) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.status = "";
+        this.phoneNumber = phoneNumber;
     }
 
     public User(User other, T userType) {
@@ -53,7 +55,16 @@ public class User<T extends AbstractUser> {
         this.email = other.getEmail();
         this.password = other.getPassword();
         this.status = userType.getType();
+        this.phoneNumber = other.getPhoneNumber();
         System.out.println(userType);
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     // Getter and setter methods

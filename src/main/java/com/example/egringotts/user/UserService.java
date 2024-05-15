@@ -61,12 +61,21 @@ public class UserService {
      * Adds a new user in "user" table
      * @param user User object
      */
-    public void addNewUser(User user) {
+    public <E extends AbstractUser> void addNewUser(User<E> user) {
         Optional<User> studentOptional = userRepository.findUserByEmail(user.getEmail());
         if(studentOptional.isPresent()){
             throw new IllegalStateException("Email is taken"); // if email is already registered, throw exception
         }
         userRepository.save(user);
+//        try{
+//            String receiver = user.getEmail();
+//            String subject = "E-Gringgots Registration Successful!";
+//            String message = "You have successfully registered an account with us. Enjoy!";
+//            Gmailer.sendEmail( receiver, subject, message);
+//
+//        }catch(Exception e) {
+//            System.out.println(e);
+//        }
 
     }
 
