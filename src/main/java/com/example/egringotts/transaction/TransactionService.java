@@ -3,15 +3,12 @@ package com.example.egringotts.transaction;
 import com.example.egringotts.account.Account;
 import com.example.egringotts.account.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
-import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -44,15 +41,17 @@ public class TransactionService {
 
     /**
      * Get a list of transactions where method = matchstring
-     * @param method Either "category", "source_account" or "destination_account"
+     *
+     * @param id
+     * @param method      Either "category", "source_account" or "destination_account"
      * @param matchString String to match
      * @return A list of transaction that fits criteria
      */
-    public List<Transaction> getTransactionBy(String method, String matchString){
+    public List<Transaction> getTransactionBy(long id, String method, String matchString){
         List<Transaction> transactions;
         switch(method){
             case "category":
-                transactions= transactionRepository.findTransactionByCategory(matchString);
+                transactions= transactionRepository.findTransactionByCategory(matchString, id);
                 break;
             case "source_account":
                 Account src = accountRepository.findAccountById(Long.valueOf(matchString)).orElseThrow(
@@ -71,7 +70,7 @@ public class TransactionService {
             default:
                 throw new IllegalStateException("Illegal method name");
         }
-        removeAccountInfo(transactions);
+//        removeAccountInfo(transactions);
         return transactions;
     }
 

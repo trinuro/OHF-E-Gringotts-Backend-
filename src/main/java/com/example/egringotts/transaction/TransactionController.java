@@ -51,8 +51,8 @@ public class TransactionController {
      */
     // DOCUMENT
     @GetMapping(path="/getTransaction")
-    public @ResponseBody List<Transaction> getTransaction(@RequestParam(name="property") String property, @RequestParam(name="value") String value){
-        return transactionService.getTransactionBy(property, value);
+    public @ResponseBody List<Transaction> getTransaction(@RequestParam(name="id") long id, @RequestParam(name="property") String property, @RequestParam(name="value") String value){
+        return transactionService.getTransactionBy(id, property, value);
     }
 
     //document

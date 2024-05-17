@@ -15,8 +15,8 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
     @Query("SELECT s FROM Transaction s WHERE s.dateTime BETWEEN ?1 AND ?2")
     List<Transaction> findTransactionsByDateTimeBetween(String startTime, String endTime);
 
-    @Query("SELECT s FROM  Transaction s WHERE s.category=?1")
-    List<Transaction> findTransactionByCategory(String categoryName);
+    @Query("SELECT s FROM  Transaction s WHERE s.category=?1 AND (s.sourceAccount.id = ?2 OR s.destinationAccount.id = ?2)")
+    List<Transaction> findTransactionByCategory(String categoryName, long id);
 
     @Query("SELECT s FROM  Transaction s WHERE s.sourceAccount=?1")
     List<Transaction> findTransactionBySourceAccount(Account src);
