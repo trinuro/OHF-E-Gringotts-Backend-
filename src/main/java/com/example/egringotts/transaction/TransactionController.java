@@ -1,8 +1,11 @@
 package com.example.egringotts.transaction;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -49,13 +52,10 @@ public class TransactionController {
      * @param value Value to query database
      * @return A list of JSON
      */
-    // DOCUMENT
     @GetMapping(path="/getTransaction")
     public @ResponseBody List<Transaction> getTransaction(@RequestParam(name="id") long id, @RequestParam(name="property") String property, @RequestParam(name="value") String value){
         return transactionService.getTransactionBy(id, property, value);
     }
-
-    //document
 
     /**
      * Get transaction in a certain period of time
@@ -65,11 +65,11 @@ public class TransactionController {
      * @return A list of transactions JSONs
      */
     @GetMapping(path="/getTransactionByDateTime")
-    public @ResponseBody List<Transaction> getTransactionByDateTime(@RequestParam(name="start") String startTime, @RequestParam(name="end") String endTime){
+    public @ResponseBody List<Transaction> getTransactionByDateTime(
+            @RequestParam(name="start")  String startTime,
+            @RequestParam(name="end") String endTime){
         return transactionService.getTransactionsByDateTime(startTime, endTime);
     }
-
-    //document
 
     /**
      * Get all transactions in the days before a certain date
