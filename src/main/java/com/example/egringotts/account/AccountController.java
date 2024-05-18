@@ -32,11 +32,15 @@ public class AccountController {
 
     @PutMapping(path="{accountId}")
     public void updateAccount(@PathVariable("accountId") long id,
-                              @RequestParam(required = true) long new_accountId){
-        accountService.updateAccount(id, new_accountId);
+                              @RequestParam(required = false) Double knut_balance,
+                              @RequestParam(required = false) Double sickle_balance,
+                              @RequestParam(required = false) Double galleon_balance,
+                              @RequestParam(required = false) Long user_id_long,
+                              @RequestParam(required = false) User myUser){
+        accountService.updateAccount(id, knut_balance, sickle_balance, galleon_balance, user_id_long, myUser);
     }
 
-    @PostMapping(path="/get")
+    @GetMapping(path="/get")
     public Account getAccountById(@RequestParam(required = true) int id){
         return accountService.getAccountById(id);
     }
