@@ -1,11 +1,13 @@
 package com.example.egringotts.account;
 
 import com.example.egringotts.transaction.Transaction;
+import com.example.egringotts.user_account.UserAccount;
 import jakarta.persistence.*;
 import com.example.egringotts.user.User;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="account")
@@ -30,10 +32,12 @@ public class Account {
     private List<Transaction> transactionsSent;
     @OneToMany(mappedBy = "destinationAccount")
     private List<Transaction> transactionsReceived;
+    @OneToMany(mappedBy = "account")
+    private Set<UserAccount> favourites;
 
 
     //Constructors
-    public Account(long id, double total_balance, User myUser, double knut_balance, double sickle_balance, double galleon_balance, Long user_id_long) {
+    public Account(long id, double total_balance, User myUser, double knut_balance, double sickle_balance, double galleon_balance, Long user_id_long, Set<UserAccount> favourites) {
         this.id = id;
         this.total_balance = total_balance;
         this.myUser = myUser;
@@ -41,6 +45,7 @@ public class Account {
         this.sickle_balance = sickle_balance;
         this.galleon_balance = galleon_balance;
         this.user_id_long = user_id_long;
+        this.favourites = favourites;
     }
 
     public Account(){}
