@@ -2,6 +2,7 @@ package com.example.egringotts.user;
 
 import com.example.egringotts.account.Account;
 import com.example.egringotts.transaction.Transaction;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
 
@@ -25,6 +26,7 @@ public class User<T extends AbstractUser> {
     private long id;
     private String name;
     private String email;
+    @JsonIgnore
     private String password;
     private String status;
     // A user can have many accounts

@@ -176,7 +176,7 @@ public class TransactionService {
     public void updateGalleonBalance(long id, Double amount){
         Account currAccount = accountRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Account not found"));
-
+        System.out.println(currAccount.getGalleon_balance()+amount);
         if (amount != null) {
             currAccount.setGalleon_balance(currAccount.getGalleon_balance()+amount);
         }
