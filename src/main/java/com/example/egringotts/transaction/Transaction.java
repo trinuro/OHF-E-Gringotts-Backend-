@@ -34,9 +34,13 @@ public class Transaction {
     private Long destination_account_id_long;
     private String category;
     private String description;
+    @Column(name="source_currency")
+    private String sourceCurrency;
+    @Column(name="destination_currency")
+    private String destinationCurrency;
 
     // constructors
-    public Transaction(long id, double amount, Date dateTime, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description) {
+    public Transaction(long id, double amount, Date dateTime, Account sourceAccount, Long source_account_id_long, Account destinationAccount, Long destination_account_id_long, String category, String description, String sourceCurrency, String destinationCurrency) {
         this.id = id;
         this.amount = amount;
         this.dateTime = dateTime;
@@ -46,6 +50,8 @@ public class Transaction {
         this.destination_account_id_long = destination_account_id_long;
         this.category = category;
         this.description = description;
+        this.sourceCurrency = sourceCurrency;
+        this.destinationCurrency = destinationCurrency;
     }
 
     public Transaction(){}
@@ -124,5 +130,21 @@ public class Transaction {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getSourceCurrency() {
+        return sourceCurrency;
+    }
+
+    public void setSourceCurrency(String sourceCurrency) {
+        this.sourceCurrency = sourceCurrency;
+    }
+
+    public String getDestinationCurrency() {
+        return destinationCurrency;
+    }
+
+    public void setDestinationCurrency(String destinationCurrency) {
+        this.destinationCurrency = destinationCurrency;
     }
 }

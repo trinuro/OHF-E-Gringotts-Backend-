@@ -62,3 +62,7 @@ ALTER TABLE transaction ADD date_time DATETIME;
 
 -- changeset liquibase:5
 ALTER TABLE user ADD phone_number VARCHAR(20);
+
+-- changeset liquibase:6
+ALTER TABLE transaction ADD source_currency VARCHAR(30);
+ALTER TABLE transaction ADD destination_currency VARCHAR(30);
