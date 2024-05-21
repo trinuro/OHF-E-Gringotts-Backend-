@@ -38,6 +38,29 @@ public class TransactionService {
      */
     public void addNewTransaction(Transaction transaction){
         transactionRepository.save(transaction);
+        switch(transaction.getSourceCurrency()){
+            case "galleon":
+                updateGalleonBalance(transaction.getSource_account_id_long(), transaction.getAmount()*-1);
+                break;
+            case "knut":
+                updateKnutBalance(transaction.getSource_account_id_long(), transaction.getAmount()*-1);
+                break;
+            case "sickle":
+                updateSickleBalance(transaction.getSource_account_id_long(), transaction.getAmount()*-1);
+                break;
+        } // decrease amount of source account
+
+        switch(transaction.getDestinationCurrency()){
+            case "galleon":
+                updateGalleonBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "knut":
+                updateKnutBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "sickle":
+                updateSickleBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+        } // increase amount of destination account
     }
 
     /**
@@ -138,6 +161,34 @@ public class TransactionService {
         List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
         removeAccountInfo(transactions);
         return transactions;
+    }
+
+
+    public void updateKnutBalance(long id, Double amount){
+        Account currAccount = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+
+        if (amount != null) {
+            currAccount.setKnut_balance(currAccount.getKnut_balance()+amount);
+        }
+    }
+
+    public void updateGalleonBalance(long id, Double amount){
+        Account currAccount = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+
+        if (amount != null) {
+            currAccount.setGalleon_balance(currAccount.getGalleon_balance()+amount);
+        }
+    }
+
+    public void updateSickleBalance(long id, Double amount){
+        Account currAccount = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+
+        if (amount != null) {
+            currAccount.setSickle_balance(currAccount.getSickle_balance()+amount);
+        }
     }
 
 }

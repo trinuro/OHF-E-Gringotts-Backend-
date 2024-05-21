@@ -33,12 +33,13 @@ public class TransactionController {
      * @param transaction Transaction JSON
      * {
      *   "amount": 200,
-     *   "date_time_string": "2024-04-1 14:30:00",
-     *   "dateTime": "2024-04-1 14:30:00",
-     *   "source_account_id_long": 1,
-     *   "destination_account_id_long": 7,
+     *   "dateTime": "2024-15-05 14:30:00",
+     *   "source_account_id_long": 2,
+     *   "destination_account_id_long": 2,
      *   "category" : "Entertainment",
-     *   "description": "I love to watch movies!"
+     *   "description": "I love to watch movies!",
+     *   "sourceCurrency": "galleon",
+     *   "destinationCurrency": "knut"
      * }
      */
     @PostMapping(path="/create")
