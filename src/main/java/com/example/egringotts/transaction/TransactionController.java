@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -41,6 +39,7 @@ public class TransactionController {
      *   "sourceCurrency": "galleon",
      *   "destinationCurrency": "knut"
      * }
+     * currency type can only be "galleon", "knut" or "sickle"
      */
     @PostMapping(path="/create")
     public void createNewTransactions(@RequestBody Transaction transaction){
