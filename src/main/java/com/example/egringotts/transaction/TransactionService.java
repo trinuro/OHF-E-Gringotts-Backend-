@@ -25,8 +25,14 @@ public class TransactionService {
      * Get all transactions done by bank
      * @return List of transactions
      */
-    public List<Transaction> getAllTransactions(long id){
-        List<Transaction> transactions =  transactionRepository.findAllByAccount_Id(id);
+    public List<Transaction> getAllTransactions(){
+        List<Transaction> transactions =  transactionRepository.findAll();
+//        removeAccountInfo(transactions);
+        return transactions;
+    }
+
+    public List<Transaction> getAllTransactionsById(long accountId) {
+        List<Transaction> transactions =  transactionRepository.findTransactionBySourceAccount_Id(accountId);
 //        removeAccountInfo(transactions);
         return transactions;
     }
@@ -94,7 +100,7 @@ public class TransactionService {
      * @param endTime Date and time to end (yyyy-MM-dd HH:mm:ss)
      * @return List of transactions that fit criteria
      */
-    public List<Transaction> getTransactionsByDateTime(String startTime, String endTime){
+    public List<Transaction> getTransactionsByDateTime(String startTime, String endTime, long id){
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDateTime = null;
         Date endDateTime = null;
@@ -106,8 +112,8 @@ public class TransactionService {
             throw new RuntimeException(e);
         }
 
-        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
-        removeAccountInfo(transactionList);
+        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime, id);
+//        removeAccountInfo(transactionList);
         return transactionList;
     }
 
@@ -117,7 +123,7 @@ public class TransactionService {
      * @param numberOfDays Number of days before specified date and time
      * @return List of transaction
      */
-    public List<Transaction> getTransactionByDaysBefore(String dateTime, long numberOfDays){
+    public List<Transaction> getTransactionByDaysBefore(String dateTime, long numberOfDays, long id){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dto = LocalDateTime.parse(dateTime, formatter);
@@ -136,9 +142,8 @@ public class TransactionService {
             throw new RuntimeException(e);
         }
 //        System.out.println(startDateTime+" "+endDateTime);
-        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
+        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime, id);
         removeAccountInfo(transactions);
         return transactions;
     }
-
 }

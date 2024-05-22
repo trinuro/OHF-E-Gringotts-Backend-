@@ -24,8 +24,13 @@ public class TransactionController {
      * @return A list of transactions
      */
     @GetMapping(path="/all")
-    public @ResponseBody List<Transaction> getAllTransactions(@RequestParam(name = "id") long accountId){
-        return transactionService.getAllTransactions(accountId);
+    public @ResponseBody List<Transaction> getAllTransactions(){
+        return transactionService.getAllTransactions();
+    }
+
+    @GetMapping(path="/getById")
+    public @ResponseBody List<Transaction> getAllTransactionsById(@RequestParam(name = "id") long accountId){
+        return transactionService.getAllTransactionsById(accountId);
     }
 
     /**
@@ -66,9 +71,10 @@ public class TransactionController {
      */
     @GetMapping(path="/getTransactionByDateTime")
     public @ResponseBody List<Transaction> getTransactionByDateTime(
+            @RequestParam(name="id") long id,
             @RequestParam(name="start")  String startTime,
             @RequestParam(name="end") String endTime){
-        return transactionService.getTransactionsByDateTime(startTime, endTime);
+        return transactionService.getTransactionsByDateTime(startTime, endTime, id);
     }
 
     /**
@@ -78,7 +84,7 @@ public class TransactionController {
      * @return A list of transactions that fits criteria
      */
     @GetMapping(path="/getTransactionByDayBeforeDate")
-    public @ResponseBody List<Transaction> getTransactionByDaysBeforeDate(@RequestParam(name="endDateTime") String endTime, @RequestParam(name="days") String numberOfDays){
-            return transactionService.getTransactionByDaysBefore(endTime, Integer.parseInt(numberOfDays));
+    public @ResponseBody List<Transaction> getTransactionByDaysBeforeDate(@RequestParam(name="id") long id, @RequestParam(name="endDateTime") String endTime, @RequestParam(name="days") String numberOfDays){
+            return transactionService.getTransactionByDaysBefore(endTime, Integer.parseInt(numberOfDays), id);
     }
 }
