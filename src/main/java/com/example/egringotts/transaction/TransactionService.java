@@ -39,9 +39,35 @@ public class TransactionService {
 
     /**
      * Add a new transaction to database
+     * It will automatically decrease source currency in the source account and increase destination currency in the destination account
      * @param transaction Transaction to be recorded
      */
     public void addNewTransaction(Transaction transaction){
+
+        switch(transaction.getSourceCurrency()){
+            case "galleon":
+                decreaseGalleonBalance(transaction.getSource_account_id_long(), transaction.getAmount());
+                break;
+            case "knut":
+                decreaseKnutBalance(transaction.getSource_account_id_long(), transaction.getAmount());
+                break;
+            case "sickle":
+                decreaseSickleBalance(transaction.getSource_account_id_long(), transaction.getAmount());
+                break;
+        } // decrease amount of source account (Also checks whether there is sufficient balance)
+
+        switch(transaction.getDestinationCurrency()){
+            case "galleon":
+                increaseGalleonBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "knut":
+                increaseKnutBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "sickle":
+                increaseSickleBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+        } // increase amount of destination account
+
         transactionRepository.save(transaction);
     }
 
@@ -146,4 +172,99 @@ public class TransactionService {
         removeAccountInfo(transactions);
         return transactions;
     }
+
+    /**
+     * Method to increase the knut balance by "amount"
+     * @param id Id of account to be changed
+     * @param amount Amount of money to be increased
+     */
+    public void increaseKnutBalance(long id, Double amount){
+        if(amount<0) throw new RuntimeException("Invalid amount");
+        Account check = accountRepository.findAccountById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+
+        Account currAccount = accountRepository.getReferenceById(id);
+        currAccount.setKnut_balance(currAccount.getKnut_balance()+amount);
+        accountRepository.save(currAccount);
+    }
+
+    /**
+     * Method to decrease the knut balance by "amount"
+     * @param id Id of account to be changed
+     * @param amount Amount of money to be decreased
+     */
+    public void decreaseKnutBalance(long id, Double amount){
+        if(amount<0) throw new RuntimeException("Invalid amount"); // check for negative amount
+        Account check = accountRepository.findAccountById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+        if(check.getKnut_balance()<=0) throw new RuntimeException("Insufficient balance");
+
+        Account currAccount = accountRepository.getReferenceById(id);
+        currAccount.setKnut_balance(currAccount.getKnut_balance()-amount);
+        accountRepository.save(currAccount);
+    }
+
+    /**
+     * Method to increase the galleon balance by "amount"
+     * @param id Id of account to be changed
+     * @param amount Amount of money to be increased
+     */
+    public void increaseGalleonBalance(long id, Double amount){
+        if(amount<0) throw new RuntimeException("Invalid amount");
+        Account check = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+
+        Account currAccount = accountRepository.getReferenceById(id);
+        currAccount.setGalleon_balance(currAccount.getGalleon_balance()+amount);
+        accountRepository.save(currAccount);
+    }
+
+    /**
+     * Method to decrease the galleon balance by "amount"
+     * @param id Id of account to be changed
+     * @param amount Amount of money to be decreased
+     */
+    public void decreaseGalleonBalance(long id, Double amount){
+        if(amount<0) throw new RuntimeException("Invalid amount");
+        Account check = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+        if(check.getGalleon_balance()<=0) throw new RuntimeException("Insufficient balance");
+
+
+        Account currAccount = accountRepository.getReferenceById(id);
+        currAccount.setGalleon_balance(currAccount.getGalleon_balance()-amount);
+        accountRepository.save(currAccount);
+    }
+
+    /**
+     * Method to increase the sickle balance by "amount"
+     * @param id Id of account to be changed
+     * @param amount Amount of money to be increased
+     */
+    public void increaseSickleBalance(long id, Double amount){
+        if(amount<0) throw new RuntimeException("Invalid amount");
+        Account check = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+
+        Account currAccount = accountRepository.getReferenceById(id);
+        currAccount.setSickle_balance(currAccount.getSickle_balance()+amount);
+        accountRepository.save(currAccount);
+    }
+
+    /**
+     * Method to decrease the sickle balance by "amount"
+     * @param id Id of account to be changed
+     * @param amount Amount of money to be decreased
+     */
+    public void decreaseSickleBalance(long id, Double amount){
+        if(amount<0) throw new RuntimeException("Invalid amount");
+        Account check = accountRepository.findById(id).
+                orElseThrow(() -> new RuntimeException("Account not found"));
+        if(check.getSickle_balance()<=0) throw new RuntimeException("Insufficient balance");
+
+        Account currAccount = accountRepository.getReferenceById(id);
+        currAccount.setSickle_balance(currAccount.getSickle_balance()-amount);
+        accountRepository.save(currAccount);
+    }
+
 }

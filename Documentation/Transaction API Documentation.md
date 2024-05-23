@@ -97,9 +97,13 @@ Content-Type: application/json
   "source_account_id_long": 1,  
   "destination_account_id_long": 7,  
   "category" : "Entertainment",  
-  "description": "I love to watch movies!"
+  "description": "I love to watch movies!",
+  "sourceCurrency": "knut",
+  "destinationCurrency": "galleon"
 }
 ```
+- Source currency can only be "knut", "galleon" or "sickle"
+
 Output:
 ```http
 HTTP/1.1 200 

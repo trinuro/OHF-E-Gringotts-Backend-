@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,13 +36,15 @@ public class TransactionController {
      * @param transaction Transaction JSON
      * {
      *   "amount": 200,
-     *   "date_time_string": "2024-04-1 14:30:00",
-     *   "dateTime": "2024-04-1 14:30:00",
-     *   "source_account_id_long": 1,
-     *   "destination_account_id_long": 7,
+     *   "dateTime": "2024-15-05 14:30:00",
+     *   "source_account_id_long": 2,
+     *   "destination_account_id_long": 2,
      *   "category" : "Entertainment",
-     *   "description": "I love to watch movies!"
+     *   "description": "I love to watch movies!",
+     *   "sourceCurrency": "galleon",
+     *   "destinationCurrency": "knut"
      * }
+     * currency type can only be "galleon", "knut" or "sickle"
      */
     @PostMapping(path="/create")
     public void createNewTransactions(@RequestBody Transaction transaction){

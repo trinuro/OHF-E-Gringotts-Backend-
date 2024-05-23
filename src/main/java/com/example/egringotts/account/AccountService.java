@@ -1,11 +1,13 @@
 package com.example.egringotts.account;
 
+import com.example.egringotts.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -25,19 +27,36 @@ public class AccountService {
     }
 
     @Transactional
-    public void updateAccount(long id, long new_accountId) {
-        Account oldAccount = accountRepository.findById(id).
+    public void updateAccount(long id,
+                              Double knut_balance,
+                              Double sickle_balance,
+                              Double galleon_balance, Long user_id_long, User myUser) {
+        Account currAccount = accountRepository.findById(id).
                 orElseThrow(() -> new RuntimeException("Account not found"));
 
-        if (new_accountId > 0) {
-            oldAccount.setId(new_accountId);
 
-        } else {
-            throw new NoSuchElementException("No such Id!");
+        if (knut_balance != null && knut_balance > 0) {
+            currAccount.setKnut_balance(knut_balance);
         }
+
+        if (sickle_balance != null && sickle_balance > 0) {
+            currAccount.setSickle_balance(sickle_balance);
+        }
+
+        if (galleon_balance != null && galleon_balance > 0) {
+            currAccount.setGalleon_balance(galleon_balance);
+        }
+
+        if (user_id_long != null && !Objects.equals(currAccount.getUser_id_long(), user_id_long)) {
+            currAccount.setUser_id_long(user_id_long);
+        }
+
+        if (myUser != null) {
+            currAccount.setMyUser(myUser);
+        }
+
     }
 
-    @Transactional
     public Account getAccountById(long id) {
         return accountRepository.findById(id).orElseThrow(() -> new RuntimeException("Account not found"));
     }
