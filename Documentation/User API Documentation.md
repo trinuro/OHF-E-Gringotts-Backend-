@@ -56,10 +56,12 @@ Content-Type: application/json
 {  
   "name": "test3",  
   "email": "test3@gmail.com",  
-  "password": "12345"
+  "password": "12345",
+  "phoneNumber": "0109671810"
 }
 ```
 - Note that email address must be unique
+- Set `/create?type=` 0 for Goblin, 1 for Platinum Patronus, 2 for Golden Galleon, 3 for Silver Snitch
 
 ## Log a user in
 1. Make a POST request to `../login`
