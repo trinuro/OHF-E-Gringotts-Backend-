@@ -93,7 +93,7 @@ Content-Type: application/json
   
 {  
   "amount": 200,  
-  "dateTime": "2024-15-05 14:30:00",
+  "dateTime": "2024-05-15 14:30:00",
   "source_account_id_long": 1,  
   "destination_account_id_long": 7,  
   "category" : "Entertainment",  
@@ -102,6 +102,7 @@ Content-Type: application/json
   "destinationCurrency": "galleon"
 }
 ```
+- dateTime format is in yyyy-MM-dd HH:mm:ss
 - Source currency can only be "knut", "galleon" or "sickle"
 
 Output:

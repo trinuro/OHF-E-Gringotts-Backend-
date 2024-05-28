@@ -67,6 +67,7 @@ public class UserService {
             throw new IllegalStateException("Email is taken"); // if email is already registered, throw exception
         }
         userRepository.save(user);
+        // Uncomment this part when ready to ship the product
 //        try{
 //            String receiver = user.getEmail();
 //            String subject = "E-Gringgots Registration Successful!";
