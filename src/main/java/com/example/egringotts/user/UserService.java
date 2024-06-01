@@ -5,10 +5,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository){
@@ -100,5 +104,23 @@ public class UserService {
      */
     public void refreshGmailToken(){
         Gmailer.getRefreshToken();
+    }
+
+    /**
+     * Method for password hashing which save the username and password
+     */
+    public void saveUser(String username, String password) {
+        String hashedPassword = bCryptPasswordEncoder.encode(password);
+
+        User user = userRepository.findUserByName(username).orElseThrow(
+                ()->{throw new IllegalStateException("No such user exist"); }
+        );
+
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
+    }
+
+    public boolean verifyPassword(String plainTextPassword, String hashedPassword) {
+        return bCryptPasswordEncoder.matches(plainTextPassword, hashedPassword);
     }
 }
