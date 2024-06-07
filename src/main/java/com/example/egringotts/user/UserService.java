@@ -109,10 +109,10 @@ public class UserService {
     /**
      * Method for password hashing which save the username and password
      */
-    public void saveUserPassword(String username, String password) throws NoSuchAlgorithmException {
+    public void saveUserPassword(String email, String password) throws NoSuchAlgorithmException {
         String hashedPassword = passwordEncryption(password);
 
-        User user = userRepository.findUserByName(username).orElseThrow(
+        User user = userRepository.findUserByEmail(email).orElseThrow(
                 ()->{ throw new IllegalStateException("No such user exist"); }
         );
 

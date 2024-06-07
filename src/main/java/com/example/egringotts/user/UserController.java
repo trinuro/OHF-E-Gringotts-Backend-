@@ -81,22 +81,22 @@ public class UserController {
             case 0:
                 User<Goblin> newGoblin = new User<>(user, new Goblin());
                 userService.addNewUser(newGoblin);
-                userService.saveUserPassword(user.getName(), user.getPassword());
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             case 1:
                 User<PlatinumPatronus> newPatron = new User<>(user, new PlatinumPatronus());
                 userService.addNewUser(newPatron);
-                userService.saveUserPassword(user.getName(), user.getPassword());
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             case 2:
                 User<GoldenGalleon> newGall = new User<>(user, new GoldenGalleon());
                 userService.addNewUser(newGall);
-                userService.saveUserPassword(user.getName(), user.getPassword());
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             case 3:
                 User<SilverSnitch> newSnitch = new User<>(user, new SilverSnitch());
                 userService.addNewUser(newSnitch);
-                userService.saveUserPassword(user.getName(), user.getPassword());
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             default:
                 throw new IllegalStateException(
