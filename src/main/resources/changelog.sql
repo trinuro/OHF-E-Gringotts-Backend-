@@ -66,3 +66,6 @@ ALTER TABLE user ADD phone_number VARCHAR(20);
 -- changeset liquibase:6
 ALTER TABLE transaction ADD source_currency VARCHAR(30);
 ALTER TABLE transaction ADD destination_currency VARCHAR(30);
+
+-- changeset liquibase:7
+UPDATE user SET password = '9905c33933602ae804e94f7731ecb5faaf4d6770' WHERE id = 1;
