@@ -11,6 +11,9 @@ public interface TransactionRepository extends CrudRepository<Transaction, Long>
     @Override
     List<Transaction> findAll();
 
+    @Query("SELECT s FROM Transaction s WHERE s.sourceAccount.id = ?1 ORDER BY s.id DESC")
+    List<Transaction> findLatestTransactionBySourceAccount_Id(long id);
+
     @Query("SELECT s FROM Transaction s WHERE s.sourceAccount.id = ?1 OR s.destinationAccount.id = ?1")
     List<Transaction> findTransactionBySourceAccount_Id(long id);
 

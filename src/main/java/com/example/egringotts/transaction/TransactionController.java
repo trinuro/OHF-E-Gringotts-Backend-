@@ -31,6 +31,11 @@ public class TransactionController {
         return transactionService.getAllTransactionsById(accountId);
     }
 
+    @GetMapping(path="/getLatestByAccountId")
+    public @ResponseBody Transaction getLatestTransactionById(@RequestParam(name = "id") long accountId) {
+        return transactionService.getLatestTransactionById(accountId);
+    }
+
     /**
      * Endpoint that creates a new transaction
      * @param transaction Transaction JSON
@@ -49,6 +54,11 @@ public class TransactionController {
     @PostMapping(path="/create")
     public void createNewTransactions(@RequestBody Transaction transaction){
         transactionService.addNewTransaction(transaction);
+    }
+
+    @PostMapping(path = "/convert")
+    public void convertCurrency(@RequestBody Transaction transaction, @RequestParam(name = "sourceAmount") double sourceAmount) {
+        transactionService.convertCurrency(transaction, sourceAmount);
     }
 
     /**

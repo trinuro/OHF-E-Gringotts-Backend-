@@ -37,6 +37,11 @@ public class TransactionService {
         return transactions;
     }
 
+    public Transaction getLatestTransactionById(long accountId) {
+        List <Transaction> transactions = transactionRepository.findLatestTransactionBySourceAccount_Id(accountId);
+        return transactions.get(0);
+    }
+
     /**
      * Add a new transaction to database
      * It will automatically decrease source currency in the source account and increase destination currency in the destination account
@@ -68,6 +73,33 @@ public class TransactionService {
                 break;
         } // increase amount of destination account
 
+        transactionRepository.save(transaction);
+    }
+
+    public void convertCurrency(Transaction transaction, double sourceAmount) {
+        switch(transaction.getSourceCurrency()){
+            case "galleon":
+                decreaseGalleonBalance(transaction.getSource_account_id_long(), sourceAmount);
+                break;
+            case "knut":
+                decreaseKnutBalance(transaction.getSource_account_id_long(), sourceAmount);
+                break;
+            case "sickle":
+                decreaseSickleBalance(transaction.getSource_account_id_long(), sourceAmount);
+                break;
+        } // decrease amount of source account (Also checks whether there is sufficient balance)
+
+        switch(transaction.getDestinationCurrency()){
+            case "galleon":
+                increaseGalleonBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "knut":
+                increaseKnutBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "sickle":
+                increaseSickleBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+        } // increase amount of destination account
         transactionRepository.save(transaction);
     }
 
