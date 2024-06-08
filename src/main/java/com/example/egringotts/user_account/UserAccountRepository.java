@@ -1,5 +1,6 @@
 package com.example.egringotts.user_account;
 
+import com.example.egringotts.account.Account;
 import com.example.egringotts.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,6 @@ public interface UserAccountRepository extends CrudRepository<UserAccount, UserA
     @Transactional
     @Query("DELETE FROM UserAccount s WHERE s.id.userId=?1 AND s.id.accountId=?2")
     public void deleteFavourite(long userId, long accountId);
+
+    boolean existsByUserAndAccount(User user, Account account);
 }

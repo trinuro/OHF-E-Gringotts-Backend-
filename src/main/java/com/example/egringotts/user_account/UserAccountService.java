@@ -5,6 +5,8 @@ import com.example.egringotts.account.AccountRepository;
 import com.example.egringotts.user.User;
 import com.example.egringotts.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +34,11 @@ public class UserAccountService {
 
     public void addNewFavourites(long userId, long accountId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Account account = accountRepository.findById(accountId).orElseThrow(() -> new IllegalArgumentException("Account not found"));
+        Account account = accountRepository.findById(accountId).orElseThrow(() -> new IllegalArgumentException("This account does not exist"));
+
+        if(userAccountRepository.existsByUserAndAccount(user, account)){
+            throw new IllegalArgumentException("This account already exist in your list");
+        }
 
         UserAccountKey key = new UserAccountKey(userId, accountId);
         UserAccount newFavourite = new UserAccount(key, user, account);
