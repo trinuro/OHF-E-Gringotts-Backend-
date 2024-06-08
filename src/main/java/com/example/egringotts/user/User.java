@@ -25,6 +25,10 @@ public class User<T extends AbstractUser> {
     private long id;
     private String name;
     private String email;
+<<<<<<< Updated upstream
+=======
+//    @JsonIgnore
+>>>>>>> Stashed changes
     private String password;
     private String status;
     // A user can have many accounts
