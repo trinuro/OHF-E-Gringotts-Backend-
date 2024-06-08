@@ -28,7 +28,6 @@ public class User<T extends AbstractUser> {
     private long id;
     private String name;
     private String email;
-    @JsonIgnore
     private String password;
     private String status;
     // A user can have many accounts

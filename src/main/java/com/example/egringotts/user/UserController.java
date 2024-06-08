@@ -4,8 +4,10 @@ import com.example.egringotts.user.Repositories.GoblinRepository;
 import com.example.egringotts.user.Services.GoblinService;
 import com.example.egringotts.utilities.Gmailer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 @RestController
@@ -54,7 +56,7 @@ public class UserController {
      * @return User JSON if successful
      */
     @PostMapping(path="/login")
-    public @ResponseBody User logInAUser(@RequestBody User temporaryUser){
+    public @ResponseBody User logInAUser(@RequestBody User temporaryUser) throws NoSuchAlgorithmException {
         return userService.logInUser(temporaryUser);
     }
 
@@ -63,10 +65,12 @@ public class UserController {
      * 0 for Goblin, 1 for Platinum Patronus, 2 for Golden Galleon, 3 for Silver Snitch
      */
     @PostMapping(path="/create")
-    public void createNewUsers(@RequestBody User user, @RequestParam(name="type") String typeNumber){
+    public void createNewUsers(@RequestBody User user, @RequestParam(name="type") String typeNumber) throws NoSuchAlgorithmException {
         int type = -1;
-        try{
+
+        try {
             type = Integer.valueOf(typeNumber);
+
         }catch(NumberFormatException e){
             // If type variable supplied is not integer
             throw new IllegalStateException(e); // show user the error
@@ -77,18 +81,22 @@ public class UserController {
             case 0:
                 User<Goblin> newGoblin = new User<>(user, new Goblin());
                 userService.addNewUser(newGoblin);
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             case 1:
                 User<PlatinumPatronus> newPatron = new User<>(user, new PlatinumPatronus());
                 userService.addNewUser(newPatron);
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             case 2:
                 User<GoldenGalleon> newGall = new User<>(user, new GoldenGalleon());
                 userService.addNewUser(newGall);
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             case 3:
                 User<SilverSnitch> newSnitch = new User<>(user, new SilverSnitch());
                 userService.addNewUser(newSnitch);
+                userService.saveUserPassword(user.getEmail(), user.getPassword());
                 break;
             default:
                 throw new IllegalStateException(
@@ -110,4 +118,15 @@ public class UserController {
     public void refreshToken(){
         userService.refreshGmailToken();
     }
+
+    /**
+     * Method of creating a password hashing
+     */
+    @PostMapping(path="/register")
+    public ResponseEntity<String> registerUser(@RequestBody User user) throws NoSuchAlgorithmException {
+        userService.saveUserPassword(user.getName(), user.getPassword());
+        return ResponseEntity.ok("User registered successfully");
+
+    }
+
 }

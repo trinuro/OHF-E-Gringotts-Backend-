@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class UserService {
@@ -67,6 +70,7 @@ public class UserService {
             throw new IllegalStateException("Email is taken"); // if email is already registered, throw exception
         }
         userRepository.save(user);
+        // Uncomment this part when ready to ship the product
 //        try{
 //            String receiver = user.getEmail();
 //            String subject = "E-Gringgots Registration Successful!";
@@ -84,11 +88,11 @@ public class UserService {
      * @param input JSON of email address and password
      * @return User object
      */
-    public User logInUser(User input){
+    public User logInUser(User input) throws NoSuchAlgorithmException {
         User user = userRepository.findUserByEmail(input.getEmail()).orElseThrow(
                 ()->{throw new IllegalStateException(); }
         );
-        if(user.getPassword().equals(input.getPassword())){
+        if(user.getPassword().equals(passwordEncryption(input.getPassword()))) {
             return getUserInfo("email",input.getEmail());
         }else{
             throw new IllegalStateException(); // don't tell why log in failed
@@ -100,5 +104,60 @@ public class UserService {
      */
     public void refreshGmailToken(){
         Gmailer.getRefreshToken();
+    }
+
+    /**
+     * Method for password hashing which save the username and password
+     */
+    public void saveUserPassword(String email, String password) throws NoSuchAlgorithmException {
+        String hashedPassword = passwordEncryption(password);
+
+        User user = userRepository.findUserByEmail(email).orElseThrow(
+                ()->{ throw new IllegalStateException("No such user exist"); }
+        );
+
+        user.setPassword(hashedPassword);
+        userRepository.save(user);
+    }
+
+    /**
+     * This method used to check if the password matches or not.
+     * @param plainTextPassword
+     * @param hashedPassword
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public boolean verifyPassword(String plainTextPassword, String hashedPassword) throws NoSuchAlgorithmException {
+        String convertPassword = passwordEncryption(plainTextPassword);
+        return hashedPassword.equals(convertPassword);
+    }
+
+    /**
+     * This method use for password encryption
+     * @param input
+     * @return
+     * @throws NoSuchAlgorithmException
+     */
+    public String passwordEncryption(String input) throws NoSuchAlgorithmException {
+        try {
+            // getInstance() method is called with algorithm SHA-1
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+
+            byte[] messageDigest = md.digest(input.getBytes());
+
+            // Convert byte array into signum representation
+            BigInteger no = new BigInteger(1, messageDigest);
+
+            String hashtext = no.toString(16);
+
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+
+            return hashtext;
+
+        } catch (NoSuchAlgorithmException e) {
+            throw new NoSuchAlgorithmException("No such algorithm exist!");
+        }
     }
 }
