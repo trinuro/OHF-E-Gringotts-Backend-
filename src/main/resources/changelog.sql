@@ -70,7 +70,7 @@ ALTER TABLE transaction ADD destination_currency VARCHAR(30);
 -- changeset liquibase:7
 UPDATE user SET password = '9905c33933602ae804e94f7731ecb5faaf4d6770' WHERE id = 1;
 
--- changeset liquibase: 8
+-- changeset liquibase:8
 CREATE TABLE user_account (
     user_id BIGINT NOT NULL,
     account_id BIGINT NOT NULL,
