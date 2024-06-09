@@ -170,7 +170,24 @@ public class TransactionService {
             throw new RuntimeException(e);
         }
 
-        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime, id);
+        List<Transaction> transactionList = transactionRepository.findTransactionsByIdDateTimeBetween(startDateTime, endDateTime, id);
+//        removeAccountInfo(transactionList);
+        return transactionList;
+    }
+
+    public List<Transaction> getTransactionsByDateTime(String startTime, String endTime){
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startDateTime = null;
+        Date endDateTime = null;
+        try{
+            // convert string to datetime format
+            startDateTime = fmt.parse(startTime);
+            endDateTime = fmt.parse(endTime);
+        }catch (java.text.ParseException e){
+            throw new RuntimeException(e);
+        }
+
+        List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
 //        removeAccountInfo(transactionList);
         return transactionList;
     }
@@ -200,7 +217,7 @@ public class TransactionService {
             throw new RuntimeException(e);
         }
 //        System.out.println(startDateTime+" "+endDateTime);
-        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime, id);
+        List<Transaction> transactions = transactionRepository.findTransactionsByIdDateTimeBetween(startDateTime, endDateTime, id);
         removeAccountInfo(transactions);
         return transactions;
     }

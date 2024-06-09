@@ -79,12 +79,19 @@ public class TransactionController {
      * @param endTime Ending date time (yyyy-MM-dd HH:mm:ss)
      * @return A list of transactions JSONs
      */
-    @GetMapping(path="/getTransactionByDateTime")
+    @GetMapping(path="/getTransactionByIdDateTime")
     public @ResponseBody List<Transaction> getTransactionByDateTime(
             @RequestParam(name="id") long id,
             @RequestParam(name="start")  String startTime,
             @RequestParam(name="end") String endTime){
         return transactionService.getTransactionsByDateTime(startTime, endTime, id);
+    }
+
+    @GetMapping(path="/getTransactionByDateTime")
+    public @ResponseBody List<Transaction> getTransactionByDateTime(
+            @RequestParam(name="start")  String startTime,
+            @RequestParam(name="end") String endTime){
+        return transactionService.getTransactionsByDateTime(startTime, endTime);
     }
 
     /**
