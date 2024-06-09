@@ -27,8 +27,19 @@ public class TransactionService {
      */
     public List<Transaction> getAllTransactions(){
         List<Transaction> transactions =  transactionRepository.findAll();
-        removeAccountInfo(transactions);
+//        removeAccountInfo(transactions);
         return transactions;
+    }
+
+    public List<Transaction> getAllTransactionsById(long accountId) {
+        List<Transaction> transactions =  transactionRepository.findTransactionBySourceAccount_Id(accountId);
+//        removeAccountInfo(transactions);
+        return transactions;
+    }
+
+    public Transaction getLatestTransactionById(long accountId) {
+        List <Transaction> transactions = transactionRepository.findLatestTransactionBySourceAccount_Id(accountId);
+        return transactions.get(0);
     }
 
     /**
@@ -65,17 +76,46 @@ public class TransactionService {
         transactionRepository.save(transaction);
     }
 
+    public void convertCurrency(Transaction transaction, double sourceAmount) {
+        switch(transaction.getSourceCurrency()){
+            case "galleon":
+                decreaseGalleonBalance(transaction.getSource_account_id_long(), sourceAmount);
+                break;
+            case "knut":
+                decreaseKnutBalance(transaction.getSource_account_id_long(), sourceAmount);
+                break;
+            case "sickle":
+                decreaseSickleBalance(transaction.getSource_account_id_long(), sourceAmount);
+                break;
+        } // decrease amount of source account (Also checks whether there is sufficient balance)
+
+        switch(transaction.getDestinationCurrency()){
+            case "galleon":
+                increaseGalleonBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "knut":
+                increaseKnutBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+            case "sickle":
+                increaseSickleBalance(transaction.getDestination_account_id_long(), transaction.getAmount());
+                break;
+        } // increase amount of destination account
+        transactionRepository.save(transaction);
+    }
+
     /**
      * Get a list of transactions where method = matchstring
-     * @param method Either "category", "source_account" or "destination_account"
+     *
+     * @param id
+     * @param method      Either "category", "source_account" or "destination_account"
      * @param matchString String to match
      * @return A list of transaction that fits criteria
      */
-    public List<Transaction> getTransactionBy(String method, String matchString){
+    public List<Transaction> getTransactionBy(long id, String method, String matchString){
         List<Transaction> transactions;
         switch(method){
             case "category":
-                transactions= transactionRepository.findTransactionByCategory(matchString);
+                transactions= transactionRepository.findTransactionByCategory(matchString, id);
                 break;
             case "source_account":
                 Account src = accountRepository.findAccountById(Long.valueOf(matchString)).orElseThrow(
@@ -94,7 +134,7 @@ public class TransactionService {
             default:
                 throw new IllegalStateException("Illegal method name");
         }
-        removeAccountInfo(transactions);
+//        removeAccountInfo(transactions);
         return transactions;
     }
 
@@ -118,6 +158,23 @@ public class TransactionService {
      * @param endTime Date and time to end (yyyy-MM-dd HH:mm:ss)
      * @return List of transactions that fit criteria
      */
+    public List<Transaction> getTransactionsByDateTime(String startTime, String endTime, long id){
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date startDateTime = null;
+        Date endDateTime = null;
+        try{
+            // convert string to datetime format
+            startDateTime = fmt.parse(startTime);
+            endDateTime = fmt.parse(endTime);
+        }catch (java.text.ParseException e){
+            throw new RuntimeException(e);
+        }
+
+        List<Transaction> transactionList = transactionRepository.findTransactionsByIdDateTimeBetween(startDateTime, endDateTime, id);
+//        removeAccountInfo(transactionList);
+        return transactionList;
+    }
+
     public List<Transaction> getTransactionsByDateTime(String startTime, String endTime){
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDateTime = null;
@@ -131,7 +188,7 @@ public class TransactionService {
         }
 
         List<Transaction> transactionList = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
-        removeAccountInfo(transactionList);
+//        removeAccountInfo(transactionList);
         return transactionList;
     }
 
@@ -141,7 +198,7 @@ public class TransactionService {
      * @param numberOfDays Number of days before specified date and time
      * @return List of transaction
      */
-    public List<Transaction> getTransactionByDaysBefore(String dateTime, long numberOfDays){
+    public List<Transaction> getTransactionByDaysBefore(String dateTime, long numberOfDays, long id){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dto = LocalDateTime.parse(dateTime, formatter);
@@ -160,7 +217,7 @@ public class TransactionService {
             throw new RuntimeException(e);
         }
 //        System.out.println(startDateTime+" "+endDateTime);
-        List<Transaction> transactions = transactionRepository.findTransactionsByDateTimeBetween(startDateTime, endDateTime);
+        List<Transaction> transactions = transactionRepository.findTransactionsByIdDateTimeBetween(startDateTime, endDateTime, id);
         removeAccountInfo(transactions);
         return transactions;
     }

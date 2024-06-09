@@ -1,11 +1,11 @@
 package com.example.egringotts.account;
 
 import com.example.egringotts.user.User;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(path="api/v1/account")
@@ -22,6 +22,11 @@ public class AccountController {
     @GetMapping(path="/all")
     public @ResponseBody List<Account> getAllAccounts(){
         return (List<Account>) accountService.getAllAccounts();
+    }
+
+    @GetMapping(path = "/getByUserId")
+    public @ResponseBody Optional<Account> getByUserId(@RequestParam(name = "id") long userId) {
+        return accountService.getAccountByUserId(userId);
     }
 
     @PostMapping(path="/create")

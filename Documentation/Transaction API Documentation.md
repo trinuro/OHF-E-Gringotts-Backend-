@@ -181,7 +181,7 @@ Response code: 200; Time: 285ms (285 ms); Content length: 0 bytes (0 B)
 ```
 
 # To get transactions within a certain period
-1. Make a GET request to `../getTransactionByDateTime?start=2024-03-1 14:30:00&end=2024-04-30 14:30:00`
+1. Make a GET request to `../getTransactionByDateTime?id=6&start=2024-03-1 14:30:00&end=2024-04-30 14:30:00`
 ```json
 [
   {
@@ -199,7 +199,7 @@ Response code: 200; Time: 285ms (285 ms); Content length: 0 bytes (0 B)
 ```
 
 # To get transactions before a certain time
-Make a GET request to `../getTransactionByDayBeforeDate?endDateTime=2024-04-30 14:30:00&days=31`
+Make a GET request to `../getTransactionByDayBeforeDate?id=6&endDateTime=2024-04-30 14:30:00&days=31`
 ```json
 [
   {

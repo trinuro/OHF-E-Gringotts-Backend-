@@ -55,6 +55,27 @@ Connection: keep-alive
 ]
 ```
 
+2. Get Account By User Id
+```
+http://localhost:8080/api/v1/account/getByUserId?id=2
+{
+  "id": 2,
+  "total_balance": 222.5,
+  "myUser": {
+    "id": 2,
+    "name": "Wen Yang",
+    "email": "wenyang@test.com",
+    "password": "8cb2237d0679ca88db6464eac60da96345513964",
+    "status": "silverSnitch",
+    "phoneNumber": "0123401648"
+  },
+  "knut_balance": 58,
+  "sickle_balance": 71,
+  "galleon_balance": 16,
+  "user_id_long": 2
+}
+```
+
 ## Create new account
 1. Create a POST request to this endpoint
 ```http

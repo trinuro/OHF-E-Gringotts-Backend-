@@ -26,6 +26,16 @@ public class TransactionController {
         return transactionService.getAllTransactions();
     }
 
+    @GetMapping(path="/getById")
+    public @ResponseBody List<Transaction> getAllTransactionsById(@RequestParam(name = "id") long accountId){
+        return transactionService.getAllTransactionsById(accountId);
+    }
+
+    @GetMapping(path="/getLatestByAccountId")
+    public @ResponseBody Transaction getLatestTransactionById(@RequestParam(name = "id") long accountId) {
+        return transactionService.getLatestTransactionById(accountId);
+    }
+
     /**
      * Endpoint that creates a new transaction
      * @param transaction Transaction JSON
@@ -46,6 +56,11 @@ public class TransactionController {
         transactionService.addNewTransaction(transaction);
     }
 
+    @PostMapping(path = "/convert")
+    public void convertCurrency(@RequestBody Transaction transaction, @RequestParam(name = "sourceAmount") double sourceAmount) {
+        transactionService.convertCurrency(transaction, sourceAmount);
+    }
+
     /**
      * Endpoint that gets transaction by property (Either "category", "destination_account" or "source_account" only)
      * @param property Either "category", "destination_account" or "source_account" only
@@ -53,8 +68,8 @@ public class TransactionController {
      * @return A list of JSON
      */
     @GetMapping(path="/getTransaction")
-    public @ResponseBody List<Transaction> getTransaction(@RequestParam(name="property") String property, @RequestParam(name="value") String value){
-        return transactionService.getTransactionBy(property, value);
+    public @ResponseBody List<Transaction> getTransaction(@RequestParam(name="id") long id, @RequestParam(name="property") String property, @RequestParam(name="value") String value){
+        return transactionService.getTransactionBy(id, property, value);
     }
 
     /**
@@ -64,6 +79,14 @@ public class TransactionController {
      * @param endTime Ending date time (yyyy-MM-dd HH:mm:ss)
      * @return A list of transactions JSONs
      */
+    @GetMapping(path="/getTransactionByIdDateTime")
+    public @ResponseBody List<Transaction> getTransactionByDateTime(
+            @RequestParam(name="id") long id,
+            @RequestParam(name="start")  String startTime,
+            @RequestParam(name="end") String endTime){
+        return transactionService.getTransactionsByDateTime(startTime, endTime, id);
+    }
+
     @GetMapping(path="/getTransactionByDateTime")
     public @ResponseBody List<Transaction> getTransactionByDateTime(
             @RequestParam(name="start")  String startTime,
@@ -78,7 +101,7 @@ public class TransactionController {
      * @return A list of transactions that fits criteria
      */
     @GetMapping(path="/getTransactionByDayBeforeDate")
-    public @ResponseBody List<Transaction> getTransactionByDaysBeforeDate(@RequestParam(name="endDateTime") String endTime, @RequestParam(name="days") String numberOfDays){
-            return transactionService.getTransactionByDaysBefore(endTime, Integer.parseInt(numberOfDays));
+    public @ResponseBody List<Transaction> getTransactionByDaysBeforeDate(@RequestParam(name="id") long id, @RequestParam(name="endDateTime") String endTime, @RequestParam(name="days") String numberOfDays){
+            return transactionService.getTransactionByDaysBefore(endTime, Integer.parseInt(numberOfDays), id);
     }
 }

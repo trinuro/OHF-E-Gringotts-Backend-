@@ -2,9 +2,11 @@ package com.example.egringotts.user;
 
 import com.example.egringotts.account.Account;
 import com.example.egringotts.transaction.Transaction;
+import com.example.egringotts.user_account.UserAccount;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Class that describes users of our system
@@ -31,6 +33,8 @@ public class User<T extends AbstractUser> {
     // A user can have many accounts
     @OneToMany(mappedBy = "myUser")
     private List<Account> accounts;
+    @OneToMany(mappedBy = "user")
+    private Set<UserAccount> favourites;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -42,12 +46,13 @@ public class User<T extends AbstractUser> {
     }
 
     // Constructor
-    public User(long id, String name, String email, String password, String phoneNumber) {
+    public User(long id, String name, String email, String password, String phoneNumber, Set<UserAccount> favourites) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.status = "";
         this.phoneNumber = phoneNumber;
+        this.favourites = favourites;
     }
 
     public User(User other, T userType) {
