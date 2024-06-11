@@ -26,6 +26,9 @@ public class AccountService {
     }
 
     public void addNewAccount(Account account){
+        if(accountRepository.existsByMyUser_Id(account.getUser_id_long())){
+            return;
+        }
         accountRepository.save(account);
     }
 

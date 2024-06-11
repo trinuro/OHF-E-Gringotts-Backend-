@@ -38,5 +38,5 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
     @Query("UPDATE Account a SET a.sickle_balance = ?2 WHERE a.myUser.id=?1")
     void updateSickleBalanceByMyUser_Id(long id, double sickleBalance);
 
-
+    boolean existsByMyUser_Id(Long id);
 }
